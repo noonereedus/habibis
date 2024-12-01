@@ -1,3 +1,5 @@
+CREATE DATABASE ssh_shared_orders;
+
 CREATE TABLE students (
     student_id VARCHAR(20) PRIMARY KEY,    
     name VARCHAR(100) NOT NULL   
