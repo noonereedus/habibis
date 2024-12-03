@@ -35,6 +35,10 @@ app.get('/products', async(req, res) => {
     res.json(result.rows);
 })
 
+// TODO: list all products in group order
+
+// TODO: list all products of a student in group order
+
 // calculate total cost of an order
 app.get('/order/:orderId/total', async (req, res) => {
     const { orderId } = req.params;
@@ -64,6 +68,10 @@ app.get('/order/:orderId/student/:studentId/total', async (req, res) => {
 
     res.json({ orderId, studentId, individualTotal: result.rows[0].individual_total || 0 });
 })
+
+// TODO: dynamically calculate delivery fee per student in an order 
+
+// TODO: add/remove items in an order
 
 // start the server 
 const port = 3000;
