@@ -17,7 +17,7 @@ CREATE TABLE shared_orders (
     creation_time TIMESTAMP DEFAULT NOW(),   
     status VARCHAR(20) DEFAULT 'active',     
     total_cost NUMERIC(10, 2) DEFAULT 0.00,  
-    unique_code VARCHAR(xxxxxxx) NOT NULL        
+    unique_code VARCHAR(5) NOT NULL        
 );
 
 CREATE TABLE shared_order_items (
