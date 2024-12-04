@@ -25,7 +25,7 @@ CREATE TABLE shared_order_items (
     item_id  INT REFERENCES grocery_items(id),
     order_id INT REFERENCES shared_orders(id), 
     student_id VARCHAR(20) REFERENCES students(student_id),               
-    quantity INT D	EFAULT 1,    
+    quantity INT DEFAULT 1,    
     added_time TIMESTAMP DEFAULT NOW()
 );
 
