@@ -43,8 +43,26 @@ export async function updateIndividualTotal(orderId, studentId) {
 }
 
 // TODO: dynamically calculate delivery fee per student in an order 
+const DELIVERY_FEE = 5;
 export async function updateDeliveryFee (orderId) {
-    
+    const countResult = await pool.query(
+        `SELECT COUNT(DISTINCT student_id) AS count
+         FROM shared_order_items
+         WHERE order_id = $1`,
+        [orderId]
+    );
+
+    const numOfStudents = countResult.rows[0].count;
+    if (numOfStudents === 0) {
+        throw new Error(`No students in order_id ${orderId}.`);
+    }
+
+    const result = await pool.query(
+        `UPDATE student_contributions
+         SET delivery_fee_share = $1 / $2
+         WHERE order_id = $3`,
+        [DELIVERY_FEE, numOfStudents, orderId]
+    );
 }
 
 // TODO: add items to an order
