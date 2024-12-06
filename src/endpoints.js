@@ -11,9 +11,43 @@ router.get('/products', async(req, res) => {
     res.json(result.rows);
 })
 
-// TODO: list all products in group order
+// list all products in group order
+router.get('/order/:orderId/products', async (req, res) => {
+    const { orderId } = req.params;
 
-// TODO: list all products of a student in group order
+    const result = await pool.query(
+        `SELECT 
+            shared_order_items.item_id, 
+            grocery_items.name AS product_name, 
+            shared_order_items.quantity
+         FROM shared_order_items
+         JOIN grocery_items ON shared_order_items.item_id = grocery_items.id
+         WHERE shared_order_items.order_id = $1`,
+         [orderId]
+      );
+
+      res.json({ orderId, products: result.rows });
+});
+
+// list all products of a student in group order
+router.get('/order/:orderId/student/:studentId/products', async (req, res) => {
+    const { orderId, studentId } = req.params;
+
+    const result = await pool.query(
+        `SELECT 
+            shared_order_items.item_id, 
+            grocery_items.name AS product_name, 
+            shared_order_items.quantity
+         FROM shared_order_items
+         JOIN grocery_items ON shared_order_items.item_id = grocery_items.id
+         WHERE shared_order_items.order_id = $1
+         AND shared_order_items.student_id = $2`,  
+         
+        [orderId, studentId]
+    );
+
+    res.json({ orderId, studentId, products: result.rows });
+});
 
 // get total cost of an order
 router.get('/order/:orderId/total', async (req, res) => {
