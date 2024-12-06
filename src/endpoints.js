@@ -1,6 +1,6 @@
 import express from 'express';
 import pool from './utils.js';
-// import { function_names } from './utils.js';
+import { addItemToOrder, removeItemFromOrder } from './utils.js'; 
 
 const router = express.Router();
 
@@ -90,8 +90,24 @@ router.get('/order/:orderId/deliveryFeeShare', async (req, res) => {
     res.json({ orderId, deliveryFeeShare: result.rows[0].delivery_fee_share });
 })
 
-// TODO: add items to an order
+// add items to an order
+router.post('/order/:orderId/add', async (req,res) => {
+    const { orderId } = req.params;
+    const { itemId, studentId } = req.body;
 
-// TODO: remove items from an order
+    await addItemToOrder(orderId, itemId, studentId);
+    res.json({ message: "Item added successfully" }); 
+})
+
+// remove items from an order
+router.post('/order/:orderId/remove', async (req,res) => {
+    const { orderId } = req.params;
+    const { itemId, studentId } = req.body;
+
+    await removeItemFromOrder(orderId, itemId, studentId);
+    res.json({ message: "Item removed successfully" }); 
+})
+
+
 
 export default router;
