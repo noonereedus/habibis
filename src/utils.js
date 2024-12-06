@@ -123,6 +123,18 @@ export async function removeItemFromOrder(orderId, itemId, studentId){
     await updateIndividualTotal(orderId, studentId);
 }
 
+// TODO: generate a unique code
+
+// TODO: create a shared order
+
+// TODO: add student to shared order
+
+// TODO: remove student from group order
+
+// TODO: update payment status of a student in group order
+
+// TODO: update order status once all participants complete payment
+
 // for testing purposes
 export async function testUtilities() {
     // order 1
