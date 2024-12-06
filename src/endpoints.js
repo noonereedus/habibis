@@ -108,6 +108,11 @@ router.post('/order/:orderId/remove', async (req,res) => {
     res.json({ message: "Item removed successfully" }); 
 })
 
-
+// TODO: get unique_code of an order
+// TODO: create an order using utility function
+// TODO: join orders by adding a student from an order using utility function
+// TODO: remove student from an order using utility function
+// TODO: get payment status of a student in an order
+// TODO: get status of a group order 
 
 export default router;
