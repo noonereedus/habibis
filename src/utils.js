@@ -223,12 +223,33 @@ export async function removeStudentFromOrder(studentId, orderId) {
 export async function completePayment(orderId, studentId) {
     await pool.query(
         `UPDATE student_contributions
-         SET payment_status = 'PAID'
+         SET payment_status = 'paid'
          WHERE order_id = $1 AND student_id = $2`,
         [orderId, studentId]
     );
+
+    updateOrderStatus(orderId);
 }
-// TODO: update order status once all participants complete payment
+
+// finalise order status once all participants complete payment
+export async function updateOrderStatus(orderId) {
+
+    // check if all students paid, if so finalise status
+    const result = await pool.query(
+        `SELECT * FROM student_contributions
+         WHERE order_id = $1 AND payment_status = 'pending'`,
+        [orderId]
+    );
+
+    if(result.rows.length === 0){
+        await pool.query(
+            `UPDATE shared_orders
+             SET status = 'finalised'
+             WHERE order_id = $1`,
+            [orderId] 
+        );
+    }
+}
 
 // for testing purposes
 export async function testUtilities() {
