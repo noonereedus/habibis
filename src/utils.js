@@ -66,11 +66,62 @@ export async function updateDeliveryFee (orderId) {
 }
 
 // TODO: add items to an order
-export async function addItemToOrder(orderId, itemId, studentId, quantity){
+export async function addItemToOrder(orderId, itemId, studentId){
+    
+    // check if item already exists for student
+    const result = await pool.query(
+        `SELECT quantity FROM shared_order_items
+         WHERE order_id = $1 AND item_id = $2 AND student_id = $3`,
+        [orderId, itemId, studentId]
+    );
 
+    if (result.rows.length > 0) {
+        // if item exists, increment quantity
+        await pool.query(
+            `UPDATE shared_order_items
+             SET quantity = quantity + 1
+             WHERE order_id = $1 AND item_id = $2 AND student_id = $3`,
+            [orderId, itemId, studentId]
+        );
+    } else {
+        // if item doesnt exist, insert it
+        await pool.query(
+            `INSERT INTO shared_order_items (order_id, item_id, student_id)
+             VALUES ($1, $2, $3)`,
+            [orderId, itemId, studentId]
+        );
+    }
+
+    await updateOrderTotal(orderId);
+    await updateIndividualTotal(orderId, studentId);
 }
 
 // TODO: remove items from an order
-export async function removeItemFromOrder(orderId, itemId, studentId, quantity){
+export async function removeItemFromOrder(orderId, itemId, studentId){
+    // get quantity of item to be removed
+    const result = await pool.query(
+        `SELECT quantity FROM shared_order_items
+         WHERE order_id = $1 AND item_id = $2 AND student_id = $3`,
+        [orderId, itemId, studentId]
+    );
 
+    const itemQuantity = result.rows[0].quantity;
+
+    if(itemQuantity > 1) {
+        await pool.query(
+            `UPDATE shared_order_items
+             SET quantity = quantity - 1
+             WHERE order_id = $1 AND item_id = $2 AND student_id = $3`,
+            [orderId, itemId, studentId]
+        );
+    } else {
+        await pool.query(
+            `DELETE FROM shared_order_items
+             WHERE order_id = $1 AND item_id = $2 AND student_id = $3`,
+            [orderId, itemId, studentId]
+        );
+    }
+
+    await updateOrderTotal(orderId);
+    await updateIndividualTotal(orderId, studentId);
 }
