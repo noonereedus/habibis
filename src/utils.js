@@ -219,8 +219,15 @@ export async function removeStudentFromOrder(studentId, orderId) {
     await updateDeliveryFee(orderId);
 }
 
-// TODO: update payment status of a student in group order
-
+// set payment status of student in order to paid
+export async function completePayment(orderId, studentId) {
+    await pool.query(
+        `UPDATE student_contributions
+         SET payment_status = 'PAID'
+         WHERE order_id = $1 AND student_id = $2`,
+        [orderId, studentId]
+    );
+}
 // TODO: update order status once all participants complete payment
 
 // for testing purposes
