@@ -159,7 +159,40 @@ export async function createOrder(studentId) {
     );
 }
 
-// TODO: add student to shared order
+// add student to shared order
+export async function addStudentToOrder(studentId, uniqueCode) {
+    
+    // validate the unique code exists
+    const result = await pool.query(
+        `SELECT order_id FROM shared_orders
+         WHERE unique_code = $1`,
+        [uniqueCode]
+    );
+
+    if(result.rows.length > 0) {
+        const orderId = result.rows[0].order_id;
+    } else {
+        throw new Error('Invalid unique code.');
+    }
+
+    // check if student is already in group order
+    const existingEntry = await pool.query(
+        `SELECT * FROM student_contributions
+         WHERE order_id = $1 AND student_id = $2`,
+        [orderId, studentId]
+    );
+
+    if(existingEntry.rows.length > 0) {
+        throw new Error ('Student is already part of this order');
+    }
+    
+    // add student to group order
+    await pool.query(
+        `INSERT INTO student_contributions (order_id, student_id)
+         VALUES ($1, $2)`,
+        [orderId, studentId]
+    );
+}
 
 // TODO: remove student from group order
 
