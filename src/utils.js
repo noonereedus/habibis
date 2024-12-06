@@ -14,6 +14,8 @@ const pool = new Pool({
 
 export default pool;
 
+const DELIVERY_FEE = 5;
+
 export async function updateOrderTotal(orderId){
     await pool.query(
         `UPDATE shared_orders
@@ -42,7 +44,6 @@ export async function updateIndividualTotal(orderId, studentId) {
     );
 }
 
-const DELIVERY_FEE = 5;
 export async function updateDeliveryFee (orderId) {
     const countResult = await pool.query(
         `SELECT COUNT(DISTINCT student_id) AS count
@@ -152,10 +153,19 @@ export async function generateCode(){
 export async function createOrder(studentId) {
     const uniqueCode = await generateCode();
 
-    await pool.query(
+    const result = await pool.query(
         `INSERT INTO shared_orders (created_by, unique_code)
-         VALUES ($1, $2)`,
+         VALUES ($1, $2)
+         RETURNING order_id`,
         [studentId, uniqueCode]
+    );
+
+    const orderId = result.rows[0].order_id;
+
+    await pool.query(
+        `INSERT INTO student_contributions (order_id, student_id, delivery_fee_share)
+         VALUES ($1, $2, $3)`,
+        [orderId, studentId, DELIVERY_FEE]
     );
 }
 
