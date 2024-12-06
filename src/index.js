@@ -1,11 +1,13 @@
 import express from 'express'
 import router from './endpoints.js';
 import pool from './utils.js';
-// import { function_names } from './utils.js';
+import { testUtilities } from './utils.js';
 
 const app = express();
 app.use(express.json());
 app.use('/api', router);
+
+testUtilities();
 
 // test the database connection (temporary)
 async function testConnection() {

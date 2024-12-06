@@ -46,3 +46,8 @@ INSERT INTO shared_order_items (item_id, order_id, student_id, quantity) VALUES
 (20, 2, '2521768', 12);
 
 -- TODO: Add test data for `student_contributions` once dynamic calculation is implemented
+INSET INTO student_contributions (order_id, student_id) VALUES
+(1, '2644476'),
+(1, '2545776'),
+(1, '2563027'),
+(2, '2521768');

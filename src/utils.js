@@ -15,7 +15,7 @@ const pool = new Pool({
 export default pool;
 
 export async function updateOrderTotal(orderId){
-    const result = await pool.query(
+    await pool.query(
         `UPDATE shared_orders
          SET total_cost = (
              SELECT SUM(gi.price * soi.quantity)
@@ -29,7 +29,7 @@ export async function updateOrderTotal(orderId){
 }
 
 export async function updateIndividualTotal(orderId, studentId) {
-    const result = await pool.query(
+    await pool.query(
         `UPDATE student_contributions
          SET individual_total = (
              SELECT SUM(gi.price * soi.quantity)
@@ -42,7 +42,6 @@ export async function updateIndividualTotal(orderId, studentId) {
     );
 }
 
-// TODO: dynamically calculate delivery fee per student in an order 
 const DELIVERY_FEE = 5;
 export async function updateDeliveryFee (orderId) {
     const countResult = await pool.query(
@@ -57,15 +56,14 @@ export async function updateDeliveryFee (orderId) {
         throw new Error(`No students in order_id ${orderId}.`);
     }
 
-    const result = await pool.query(
+    await pool.query(
         `UPDATE student_contributions
-         SET delivery_fee_share = $1 / $2
+         SET delivery_fee_share = $1::NUMERIC / $2::NUMERIC
          WHERE order_id = $3`,
         [DELIVERY_FEE, numOfStudents, orderId]
     );
 }
 
-// TODO: add items to an order
 export async function addItemToOrder(orderId, itemId, studentId){
     
     // check if item already exists for student
@@ -96,7 +94,6 @@ export async function addItemToOrder(orderId, itemId, studentId){
     await updateIndividualTotal(orderId, studentId);
 }
 
-// TODO: remove items from an order
 export async function removeItemFromOrder(orderId, itemId, studentId){
     // get quantity of item to be removed
     const result = await pool.query(
@@ -124,4 +121,20 @@ export async function removeItemFromOrder(orderId, itemId, studentId){
 
     await updateOrderTotal(orderId);
     await updateIndividualTotal(orderId, studentId);
+}
+
+// for testing purposes
+export async function testUtilities() {
+    // order 1
+    updateDeliveryFee(1);
+    updateOrderTotal(1);
+    updateIndividualTotal(1, '2644476');
+    updateIndividualTotal(1, '2563027');
+    updateIndividualTotal(1, '2545776');
+
+    // order 2 
+    updateDeliveryFee(2);
+    updateOrderTotal(2);
+    updateIndividualTotal(2, '2521768');
+    
 }
