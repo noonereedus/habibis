@@ -123,7 +123,30 @@ export async function removeItemFromOrder(orderId, itemId, studentId){
     await updateIndividualTotal(orderId, studentId);
 }
 
-// TODO: generate a unique code
+// generate a unique code
+export async function generateCode(){
+    let result = '';
+    const chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
+
+    // generate unique code
+    for(let i = 0; i < 5; i++){
+        result += chars.charAt(Math.floor(Math.random() * chars.length))
+    }
+    
+    // check if unique code already exists
+    const codeResult = await pool.query(
+        `SELECT * FROM shared_orders
+         WHERE unique_code = $1`,
+        [result]
+    );
+
+    // if code is already used, generate again
+    if(codeResult.rows.length > 0) {
+        return generateCode();
+    }
+
+    return result;
+}
 
 // TODO: create a shared order
 
