@@ -1,6 +1,17 @@
 import express from 'express';
 import pool from './utils.js';
-import { addItemToOrder, removeItemFromOrder } from './utils.js'; 
+import { 
+    addItemToOrder, 
+    removeItemFromOrder,
+    updateOrderTotal,
+    updateIndividualTotal,
+    updateDeliveryFee,
+    createOrder,
+    addStudentToOrder,
+    removeStudentFromOrder,
+    completePayment,
+    updateOrderStatus
+} from './utils.js'; 
 
 const router = express.Router();
 
@@ -109,10 +120,32 @@ router.post('/order/:orderId/remove', async (req,res) => {
 })
 
 // TODO: get unique_code of an order
+router.get('/order', async (req, res) => {
+    const { orderId } = req.params;
+
+    const result = await pool.query(
+        `SELECT`,
+        []
+    );
+    res.json({ })
+
+})
+
 // TODO: create an order using utility function
+
+
 // TODO: join orders by adding a student from an order using utility function
+
+
 // TODO: remove student from an order using utility function
+
+
 // TODO: get payment status of a student in an order
+
+
 // TODO: get status of a group order 
+
+
+// TODO: complete payment of a student 
 
 export default router;
