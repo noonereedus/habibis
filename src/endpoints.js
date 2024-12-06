@@ -43,7 +43,18 @@ router.get('/order/:orderId/student/:studentId/total', async (req, res) => {
     res.json({ orderId, studentId, individualTotal: result.rows[0].individual_total || 0 });
 })
 
-// TODO: get delivery fee for each student in an order
+// get delivery fee for each student in an order
+router.get('/order/:orderId/deliveryFeeShare', async (req, res) => {
+    const { orderId } = req.params;
+
+    const result = await pool.query(
+        `SELECT delivery_fee_share 
+         FROM student_contributions
+         WHERE order_id = $1`,
+         [orderId] 
+    );
+    res.json({ orderId, deliveryFeeShare: result.rows[0].delivery_fee_share });
+})
 
 // TODO: add items to an order
 
