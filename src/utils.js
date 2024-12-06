@@ -179,11 +179,11 @@ export async function addStudentToOrder(studentId, uniqueCode) {
         [uniqueCode]
     );
 
-    if(result.rows.length > 0) {
-        const orderId = result.rows[0].order_id;
-    } else {
+    if(result.rows.length < 1) {
         throw new Error('Invalid unique code.');
     }
+
+    const orderId = result.rows[0].order_id;
 
     // check if student is already in group order
     const existingEntry = await pool.query(
@@ -202,6 +202,9 @@ export async function addStudentToOrder(studentId, uniqueCode) {
          VALUES ($1, $2)`,
         [orderId, studentId]
     );
+
+    // update delivery fee when a new student joins
+    await updateDeliveryFee(orderId);
 }
 
 // TODO: remove student from group order
