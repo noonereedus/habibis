@@ -120,14 +120,16 @@ router.post('/order/:orderId/remove', async (req,res) => {
 })
 
 // TODO: get unique_code of an order
-router.get('/order', async (req, res) => {
+router.get('/order/:orderId/uniqueCode', async (req, res) => {
     const { orderId } = req.params;
 
     const result = await pool.query(
-        `SELECT`,
-        []
+        `SELECT unique_code 
+         FROM shared_orders
+         WHERE id = $1`,
+        [orderId]
     );
-    res.json({ })
+    res.json({orderId, uniqueCode: result.rows[0].unique_code })
 
 })
 
