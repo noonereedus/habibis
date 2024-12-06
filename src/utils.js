@@ -148,7 +148,16 @@ export async function generateCode(){
     return result;
 }
 
-// TODO: create a shared order
+// create a shared order
+export async function createOrder(studentId) {
+    const uniqueCode = await generateCode();
+
+    await pool.query(
+        `INSERT INTO shared_orders (created_by, unique_code)
+         VALUES ($1, $2)`,
+        [studentId, uniqueCode]
+    );
+}
 
 // TODO: add student to shared order
 
