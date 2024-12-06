@@ -207,7 +207,17 @@ export async function addStudentToOrder(studentId, uniqueCode) {
     await updateDeliveryFee(orderId);
 }
 
-// TODO: remove student from group order
+// remove student from group order
+export async function removeStudentFromOrder(studentId, orderId) {
+    await pool.query(
+        `DELETE FROM student_contributions
+         WHERE student_id = $1 AND order_id = $2`,
+        [studentId, orderId]
+    );
+
+    await updateOrderTotal(orderId);
+    await updateDeliveryFee(orderId);
+}
 
 // TODO: update payment status of a student in group order
 
