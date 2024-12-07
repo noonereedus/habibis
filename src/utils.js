@@ -167,6 +167,8 @@ export async function createOrder(studentId) {
          VALUES ($1, $2, $3)`,
         [orderId, studentId, DELIVERY_FEE]
     );
+
+    return uniqueCode;
 }
 
 // add student to shared order
