@@ -181,8 +181,20 @@ router.get('/order/:orderId/student/:studentId/paymentStatus', async(req, res) =
     
 }); 
 
-// TODO: get status of a group order 
+// get status of a group order 
+router.get('/order/:orderId/status', async(req, res) => {
+	const { orderId } = req.params;  
 
+	const result = await pool.query(
+		`SELECT status
+		 FROM shared_orders
+		 WHERE id = $1`,
+		[orderId]
+    );
+
+    const { status } = result.rows[0];
+	res.json({ orderStatus: status });
+}); 
 
 // TODO: complete payment of a student 
 
