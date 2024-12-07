@@ -133,7 +133,7 @@ router.get('/order/:orderId/uniqueCode', async (req, res) => {
 
 })
 
-// TODO: create a new shared order using utility function
+// create a new shared order using utility function
 router.post('/order/create', async (req, res) => {
     const { studentId } = req.body;
 
@@ -141,7 +141,19 @@ router.post('/order/create', async (req, res) => {
     res.json({ message: "Shared order created successfully", uniqueCode })
 });
 
-// TODO: join orders by adding a student from an order using utility function
+// join orders by adding a student from an order using utility function
+router.post('/order/join', async (req, res) => {
+    const { studentId, uniqueCode } = req.body;
+
+    try{
+        const orderId = await addStudentToOrder(studentId, uniqueCode);
+        res.json ({ message: "Student added to order successfully", orderId });
+        
+    } catch (err) {
+        res.json({ error: err.message });
+    }
+
+});
 
 
 // TODO: remove student from an order using utility function
