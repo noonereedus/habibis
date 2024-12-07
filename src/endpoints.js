@@ -196,6 +196,13 @@ router.get('/order/:orderId/status', async(req, res) => {
 	res.json({ orderStatus: status });
 }); 
 
-// TODO: complete payment of a student 
+// complete payment of a student 
+router.post('/order/:orderId/completePayment', async (req, res) => {
+    const { orderId } = req.params;
+    const { studentId } = req.body;
+
+    await completePayment(orderId, studentId);
+    res.json({ message: "Payment completed successfully" });
+});
 
 export default router;
