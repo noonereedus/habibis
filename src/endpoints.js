@@ -164,9 +164,22 @@ router.post('/order/:orderId/removeStudent', async (req, res) => {
 	res.json({ message: "Student removed from order successfully" }); 
 });
 
+// get payment status of a student in an order
+router.get('/order/:orderId/student/:studentId/paymentStatus', async(req, res) => {
+	const { orderId, studentId } = req.params;  
 
-// TODO: get payment status of a student in an order
+	const result = await pool.query(
+        `SELECT payment_status
+		 FROM student_contributions
+		 WHERE order_id = $1 AND student_id = $2`,
+		 [orderId, studentId]
+    );
 
+    const { payment_status } = result.rows[0];
+
+	res.json({ paymentStatus: payment_status });
+    
+}); 
 
 // TODO: get status of a group order 
 
