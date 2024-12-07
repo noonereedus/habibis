@@ -156,11 +156,11 @@ export async function createOrder(studentId) {
     const result = await pool.query(
         `INSERT INTO shared_orders (created_by, unique_code)
          VALUES ($1, $2)
-         RETURNING order_id`,
+         RETURNING id`,
         [studentId, uniqueCode]
     );
 
-    const orderId = result.rows[0].order_id;
+    const orderId = result.rows[0].id;
 
     await pool.query(
         `INSERT INTO student_contributions (order_id, student_id, delivery_fee_share)
@@ -174,7 +174,7 @@ export async function addStudentToOrder(studentId, uniqueCode) {
     
     // validate the unique code exists
     const result = await pool.query(
-        `SELECT order_id FROM shared_orders
+        `SELECT id FROM shared_orders
          WHERE unique_code = $1`,
         [uniqueCode]
     );
@@ -183,7 +183,7 @@ export async function addStudentToOrder(studentId, uniqueCode) {
         throw new Error('Invalid unique code.');
     }
 
-    const orderId = result.rows[0].order_id;
+    const orderId = result.rows[0].id;
 
     // check if student is already in group order
     const existingEntry = await pool.query(
@@ -245,7 +245,7 @@ export async function updateOrderStatus(orderId) {
         await pool.query(
             `UPDATE shared_orders
              SET status = 'finalised'
-             WHERE order_id = $1`,
+             WHERE id = $1`,
             [orderId] 
         );
     }
