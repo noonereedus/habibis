@@ -207,6 +207,8 @@ export async function addStudentToOrder(studentId, uniqueCode) {
 
     // update delivery fee when a new student joins
     await updateDeliveryFee(orderId);
+
+    return orderId;
 }
 
 // remove student from group order
