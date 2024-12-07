@@ -1,5 +1,5 @@
 import express from 'express';
-import pool from './utils.js';
+import pool, { generateCode } from './utils.js';
 import { 
     addItemToOrder, 
     removeItemFromOrder,
@@ -119,7 +119,7 @@ router.post('/order/:orderId/remove', async (req,res) => {
     res.json({ message: "Item removed successfully" }); 
 })
 
-// TODO: get unique_code of an order
+// get unique_code of an order
 router.get('/order/:orderId/uniqueCode', async (req, res) => {
     const { orderId } = req.params;
 
@@ -129,12 +129,17 @@ router.get('/order/:orderId/uniqueCode', async (req, res) => {
          WHERE id = $1`,
         [orderId]
     );
-    res.json({orderId, uniqueCode: result.rows[0].unique_code })
+    res.json({orderId, uniqueCode: result.rows[0].unique_code })  //TODO: handle edge cases
 
 })
 
-// TODO: create an order using utility function
+// TODO: create a new shared order using utility function
+router.post('/order/create', async (req, res) => {
+    const { studentId } = req.body;
 
+    const uniqueCode = await createOrder(studentId);
+    res.json({ message: "Shared order created successfully", uniqueCode })
+});
 
 // TODO: join orders by adding a student from an order using utility function
 
