@@ -47,7 +47,7 @@ export async function updateIndividualTotal(orderId, studentId) {
 export async function updateDeliveryFee (orderId) {
     const countResult = await pool.query(
         `SELECT COUNT(DISTINCT student_id) AS count
-         FROM shared_order_items
+         FROM student_contributions
          WHERE order_id = $1`,
         [orderId]
     );
