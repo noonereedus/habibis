@@ -47,7 +47,7 @@ export async function updateIndividualTotal(orderId, studentId) {
 export async function updateDeliveryFee (orderId) {
     const countResult = await pool.query(
         `SELECT COUNT(DISTINCT student_id) AS count
-         FROM shared_order_items
+         FROM student_contributions
          WHERE order_id = $1`,
         [orderId]
     );
@@ -255,8 +255,13 @@ export async function updateOrderStatus(orderId) {
     }
 }
 
-// for testing purposes
-export async function testUtilities() {
+/**
+ * Initialise test data for the database.
+ *
+ * Note: Update this function if new test data is added into data.sql.
+ */
+ 
+export async function initaliseData() {
     // order 1
     updateDeliveryFee(1);
     updateOrderTotal(1);
