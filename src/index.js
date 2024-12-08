@@ -3,6 +3,7 @@ import router from './endpoints.js';
 import pool from './utils.js';
 import { initaliseData } from './utils.js';
 
+//will add cors to the main branch soon
 const app = express();
 app.use(express.json());
 app.use('/api', router);
