@@ -1,4 +1,16 @@
 * 
 {
-    background-color: plum;
+    background-color: gold;
+}
+
+div
+{
+    text-align: center;
+}
+
+.flex
+{
+    display: flex;
+    height: 100vh;
+    align-items: center;
 }
