@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import './styles.css';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import SharedOrder from './pages/basket';
+import SharedOrder from './pages/SharedOrder';
 import mainPage from './pages/mainPage';
 import shopping from './pages/shopping';
 
