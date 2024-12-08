@@ -2,11 +2,11 @@ import {useState, useEffect} from 'react'
 
 function SharedOrder() {
 
-    const [basket, setBasket] = useState({});
+    const [products, setBasket] = useState([]);
     useEffect(() => {
         fetch("http://localhost:3000/products")
         .then(res => res.json())
-        .then(data => setData(products))
+        .then(products => setBasket(products))
     }, []
 )
 
