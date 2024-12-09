@@ -33,11 +33,18 @@ describe("Endpoint Tests", () => {
             const studentId = 2644476;
             const response = await request(app)
                 .post('/order/create')
-                .send({ stuentId });
+                .send({ studentId });
 
             expect(response.status).toBe(200);
-            expect(response.body).toHaveProperty('orderId');
-            expect(response.body).toHaveProperty('uniqueCode');
+            expect(response.body.message).toBe("Shared order created successfully");
+            expect(response.body.uniqueCode).toBeDefined();
+        });
+
+        test("GET /order/:orderId/uniqueCode should return the unique code of an order", async () => {
+            const response = await(app).get('/order/${testOrderId}/code');
+        
+            expect(response.status).toBe(200);
+            expect(response.body).toHaveProperty('uniqueCode', testUniqueCode);
         });
 
     });
@@ -59,6 +66,8 @@ describe("Endpoint Tests", () => {
 
     // clean up after tests
     afterAll (async () => {
+        await request(app).delete(endpoint);
+        
         server.close();
         await pool.end();
     });
