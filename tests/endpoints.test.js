@@ -16,7 +16,7 @@ describe("Endpoint Tests", () => {
         );
         testOrderId = orderResult.rows[0].id;
 
-        // add multiple students to the order
+        // add students to the order
         for (const studentId of testStudentIds) {
             await pool.query(
                 `INSERT INTO student_contributions (order_id, student_id, delivery_fee_share)
@@ -27,7 +27,7 @@ describe("Endpoint Tests", () => {
 
     });
 
-    // TODO: order management (create, code, status, join, remove)
+    // order management (create, code, status, join, remove)
     describe("Order management",() => {
         test("POST /order/create should create a new order", async () => {
             const studentId = 2644476;
@@ -86,10 +86,13 @@ describe("Endpoint Tests", () => {
     
     // example test (edit as needed)
     describe("Item Management", () => {
-        test("GET /api/products should return the list of products", async () => {
-            const response = await request(app).get("/api/products");
+        
+        test("GET /order/:orderId/items should list all items for an order", async () => {
+            const response = await request(app)
+                .get(`/order/${testOrderId}/items`);
+
             expect(response.status).toBe(200);
-            expect(Array.isArray(response.body)).toBe(true);
+            expect(Array.isArray(response.body.items)).toBe(true);
         });
 
         // other tests in item management...
@@ -99,7 +102,7 @@ describe("Endpoint Tests", () => {
 
     // clean up after tests
     afterAll (async () => {
-        await request(app).delete(endpoint);
+        await request(app).delete(`/order/${testOrderId}`);
         
         server.close();
         await pool.end();
