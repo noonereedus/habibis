@@ -83,8 +83,6 @@ describe("Endpoint Tests", () => {
     });
 
     // TODO: item management (products for each order/student, add, remove)
-    
-    // example test (edit as needed)
     describe("Item Management", () => {
         
         test("GET /order/:orderId/products should list all products in a group order", async () => {
@@ -110,6 +108,16 @@ describe("Endpoint Tests", () => {
 
             expect(response.status).toBe(200);
             expect(response.body.message).toBe("Item added successfully");
+        });
+
+        test("DELETE /order/:orderId/remove should remove an item from the order", async () => {
+            const testItemId = 1;
+            const response = await request(app)
+                .delete(`/order/${testOrderId}/remove`)
+                .send({ studentId: 2644476 });
+
+            expect(response.status).toBe(200);
+            expect(response.body.message).toBe("Item removed successfully");
         });
 
     });
