@@ -10,6 +10,10 @@ const pool = new Pool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     database: process.env.DB_NAME,
+    connectionTimeoutMillis: 30000,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 export default pool;
@@ -263,15 +267,14 @@ export async function updateOrderStatus(orderId) {
  
 export async function initaliseData() {
     // order 1
-    updateDeliveryFee(1);
-    updateOrderTotal(1);
-    updateIndividualTotal(1, '2644476');
-    updateIndividualTotal(1, '2563027');
-    updateIndividualTotal(1, '2545776');
+    await updateDeliveryFee(1);
+    await updateOrderTotal(1);
+    await updateIndividualTotal(1, '2644476');
+    await updateIndividualTotal(1, '2563027');
+    await updateIndividualTotal(1, '2545776');
 
     // order 2 
-    updateDeliveryFee(2);
-    updateOrderTotal(2);
-    updateIndividualTotal(2, '2521768');
-    
+    await updateDeliveryFee(2);
+    await updateOrderTotal(2);
+    await updateIndividualTotal(2, '2521768');
 }
