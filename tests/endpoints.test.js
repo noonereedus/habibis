@@ -4,6 +4,19 @@ import pool from '../src/utils.js';
 
 describe("Endpoint Tests", () => {
     // TODO: order management (create, code, status, join, remove)
+    describe("Order management",() => {
+        test("POST /order/create should create a new order", async () => {
+            const studentId = 2644476;
+            const response = await request(app)
+                .post('/order/create')
+                .send({ stuentId });
+
+            expect(response.status).toBe(200);
+            expect(response.body).toHaveProperty('orderId');
+            expect(response.body).toHaveProperty('uniqueCode');
+        });
+
+    });
 
     // TODO: item management (products for each order/student, add, remove)
     
