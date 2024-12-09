@@ -146,6 +146,16 @@ describe("Endpoint Tests", () => {
             expect(typeof response.body.individualTotal).toBe("number");
         });    
 
+        test("GET /order/:orderId/deliveryFeeShare should return the delivery fee share for each student", async () => {
+            const response = await request(app)
+                .get(`/order/${testOrderId}/deliveryFeeShare`);
+    
+            expect(response.status).toBe(200);
+            expect(response.body).toHaveProperty("orderId", testOrderId);
+            expect(response.body).toHaveProperty("deliveryFeeShare");
+            expect(typeof response.body.deliveryFeeShare).toBe("number");
+        });
+
         test("GET /order/:orderId/student/:studentId/paymentStatus should return payment status", async () =>{
             const response = await request(app)
                 .get(`/order/${testOrderId}/student/${testStudentIds[0]}/paymentStatus`)
