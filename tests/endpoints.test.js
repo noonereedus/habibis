@@ -82,7 +82,7 @@ describe("Endpoint Tests", () => {
 
     });
 
-    // TODO: item management (products for each order/student, add, remove)
+    // item management (products for each order/student, add, remove)
     describe("Item Management", () => {
         
         test("GET /order/:orderId/products should list all products in a group order", async () => {
@@ -95,7 +95,7 @@ describe("Endpoint Tests", () => {
 
         test("GET /order/:orderId/student/:studentId/products should list all items of a student in a group order", async () => {
             const response = await request(app)
-                .get(`/order/${testOrderId}/student/${testStudentId}/products`);
+                .get(`/order/${testOrderId}/student/${testStudentIds}/products`);
 
             expect(response.status).toBe(200);
             expect(Array.isArray(response.body.items)).toBe(true);
@@ -123,6 +123,16 @@ describe("Endpoint Tests", () => {
     });
 
     // TODO: payment management (order/student total, delivery share, payment status, complete payment)
+    describe("Payment Management", () => {
+        test("Get /order/:orderId/student/:studentId/paymentStatus should return payment status", async () =>{
+            const response = await request(app)
+                .get(`/order/${testOrderId}/student/${testStudentIds[0]}/paymentStatus`)
+
+            expect(response.status).toBe(200);
+            expect(response.body).toHaveProperty("paymentStatus");
+        });
+
+
 
     // clean up after tests
     afterAll (async () => {
