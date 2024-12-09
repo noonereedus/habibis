@@ -1,0 +1,17 @@
+nav
+{
+    background-color: gold;
+}
+
+div
+{
+    text-align: center;
+}
+
+.flex
+{
+    display: flex;
+    height: 100vh;
+    text-align: center;
+    align-items: center;
+}
