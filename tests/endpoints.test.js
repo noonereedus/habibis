@@ -103,6 +103,15 @@ describe("Endpoint Tests", () => {
             expect(Array.isArray(response.body.items)).toBe(true);
         });
 
+        test("POST /order/:orderId/add should add an item to the order", async () => {
+            const response = await request(app)
+                .post(`/order/${testOrderId}/add`)
+                .send({ studentId: 2644476, itemName: "Pizza", itemPrice: 15.00})
+
+            expect(response.status).toBe(200);
+            expect(response.body.message).toBe("Item added successfully");
+        });
+
     });
 
     // TODO: payment management (order/student total, delivery share, payment status, complete payment)
