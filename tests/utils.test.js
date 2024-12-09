@@ -6,8 +6,8 @@ afterAll(async () => {
 });
 
 describe('Utility Function Tests', () => {
-    test('generateCode should return a 5-character string', () => {
-      const code = generateCode();
+    test('generateCode should return a 5-character string', async () => {
+      const code = await generateCode();
       expect(code).toHaveLength(5);
     });
   });
