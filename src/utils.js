@@ -4,6 +4,8 @@ dotenv.config();
 import pg from 'pg';
 const { Pool } = pg;
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const pool = new Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -11,9 +13,7 @@ const pool = new Pool({
     port: process.env.DB_PORT,
     database: process.env.DB_NAME,
     connectionTimeoutMillis: 30000,
-    ssl: {
-        rejectUnauthorized: false
-    }
+    ssl: isProduction ? { rejectUnauthorized: false } : false
 });
 
 export default pool;
