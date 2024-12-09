@@ -4,9 +4,8 @@
   "description": "Prototype for SEPP 2024's group project",
   "type": "module",
   "main": "index.js",
-  "scripts": {
-    "test:node": "jest --config=jest.config.node.cjs",
-    "test:jsdom": "jest --config=jest.config.jsdom.cjs",
+  "scripts": { "test:node": "node --experimental-vm-modules node_modules/.bin/jest --config=jest.config.node.cjs", 
+  "test:jsdom": "node --experimental-vm-modules node_modules/.bin/jest --config=jest.config.jsdom.cjs",
     "start": "node src/index.js"
   },
   "keywords": [],
