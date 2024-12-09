@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 app.use('/api', router);
 
-initaliseData();
+await initaliseData();
 
 // test the database connection
 async function testConnection() {
