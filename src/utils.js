@@ -4,6 +4,13 @@ dotenv.config();
 import pg from 'pg';
 const { Pool } = pg;
 
+// log environment variables to ensure they're set properly
+console.log("Database user:", process.env.DB_USER);
+console.log("Database password:", process.env.DB_PASSWORD);
+console.log("Database host:", process.env.DB_HOST);
+console.log("Database port:", process.env.DB_PORT);
+console.log("Database name:", process.env.DB_NAME);
+
 const pool = new Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
