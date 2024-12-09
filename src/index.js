@@ -8,10 +8,10 @@ const app = express();
 app.use(express.json());
 app.use('/api', router);
 
-await initaliseData();
-
 // test the database connection
 async function testConnection() {
+    await initaliseData();
+
     try {
         const res = await pool.query('SELECT NOW()');
         console.log("✅ Database connected successfully at: ", res.rows[0].now);
