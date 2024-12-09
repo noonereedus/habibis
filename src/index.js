@@ -1,7 +1,7 @@
 import express from 'express'
 import router from './endpoints.js';
 import pool from './utils.js';
-import { initaliseData } from './utils.js';
+// import { initaliseData } from './utils.js';
 
 //will add cors to the main branch soon
 const app = express();
@@ -10,7 +10,8 @@ app.use('/api', router);
 
 // test the database connection
 async function testConnection() {
-    await initaliseData();
+    // commented out for tests, use locally if needed
+    // await initaliseData(); 
 
     try {
         const res = await pool.query('SELECT NOW()');
