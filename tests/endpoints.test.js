@@ -47,6 +47,15 @@ describe("Endpoint Tests", () => {
             expect(response.body).toHaveProperty('uniqueCode', testUniqueCode);
         });
 
+        test("GET /order/:orderId/status should return order status", async () => {
+            const orderId = 1;
+
+            const response = await request(app).get('/order/${orderId}/status');
+        
+            expect(response.status).toBe(200);
+            expect(response.body.orderStatus).toBeDefined(); 
+        });
+
     });
 
     // TODO: item management (products for each order/student, add, remove)
