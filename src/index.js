@@ -23,7 +23,9 @@ async function testConnection() {
 
 // start the server 
 const port = 3000;
-app.listen(port, async () => {
+const server = app.listen(port, async () => {
     console.log(`🚀 Server running on port ${port}.`);
     await testConnection();
 });
+
+export { app, server };

@@ -1,5 +1,12 @@
 import request from 'supertest';
-import app from '../src/index.js';
+import { app, server } from '../src/index.js';
+import pool from '../src/utils.js';
+
+// close server/database connection after tests
+afterAll (async () => {
+    server.close();
+    await pool.end();
+});
 
 describe("Endpoint Tests", () => {
     // TODO: order management (create, code, status, join, remove)
