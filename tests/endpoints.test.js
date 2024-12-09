@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '../src/index';
+import app from '../src/index.js';
 
 describe("Endpoint Tests", () => {
     // TODO: order management (create, code, status, join, remove)
