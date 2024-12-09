@@ -124,6 +124,17 @@ describe("Endpoint Tests", () => {
 
     // TODO: payment management (order/student total, delivery share, payment status, complete payment)
     describe("Payment Management", () => {
+
+        test("GET /order/:orderId/total should return the total cost of an order", async () => {
+            const response = await request(app)
+                .get(`/order/${testOrderId}/total`);
+    
+            expect(response.status).toBe(200);
+            expect(response.body).toHaveProperty("orderId", testOrderId);
+            expect(response.body).toHaveProperty("totalCost");
+            expect(typeof response.body.totalCost).toBe("number");
+        });
+
         test("Get /order/:orderId/student/:studentId/paymentStatus should return payment status", async () =>{
             const response = await request(app)
                 .get(`/order/${testOrderId}/student/${testStudentIds[0]}/paymentStatus`)
