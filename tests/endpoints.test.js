@@ -132,6 +132,13 @@ describe("Endpoint Tests", () => {
             expect(response.body).toHaveProperty("paymentStatus");
         });
 
+        test("POST /order/:orderId/completePayment should mark payment as complete", async () => {
+            const response = await request(app)
+                .post(`/order/${testOrderId}/completePayment`);
+
+            expect(response.status).toBe(200);
+            expect(response.body.message).toBe("Payment completed successfully");
+        });
 
 
     // clean up after tests
@@ -141,4 +148,5 @@ describe("Endpoint Tests", () => {
         server.close();
         await pool.end();
     });
+});
 });
