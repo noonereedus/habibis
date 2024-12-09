@@ -56,6 +56,19 @@ describe("Endpoint Tests", () => {
             expect(response.body.orderStatus).toBeDefined(); 
         });
 
+        test("POST /order/join should add a student to an order", async () => {
+            const studentId = 2644476;
+            const uniqueCode = "TESTCODE"
+
+            const response = await request(app)
+                .post('/order/join')
+                .send({ studentId, uniqueCode });
+
+            expect(response.status).toBe(200);
+            expect(response.body.message).toBe("Student added to order successfully");
+        });
+
+
     });
 
     // TODO: item management (products for each order/student, add, remove)
