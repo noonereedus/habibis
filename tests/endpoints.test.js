@@ -68,6 +68,17 @@ describe("Endpoint Tests", () => {
             expect(response.body.message).toBe("Student added to order successfully");
         });
 
+        test("POST /order/remove should remove a student from an order", async () => {
+            const studentId = 2644476;
+            const orderId = 1
+
+            const response = await request(app)
+                .post('/order/$orderId/remove')
+                .send({ studentId });
+
+            expect(response.status).toBe(200);
+            expect(response.body.message).toBe("Student removed from order successfully");
+        });
 
     });
 
