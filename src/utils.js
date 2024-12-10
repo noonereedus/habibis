@@ -259,6 +259,13 @@ export async function updateOrderStatus(orderId) {
     }
 }
 
+// delete an order
+export async function deleteOrder(orderId) {
+    await pool.query(`DELETE FROM shared_order_items WHERE order_id = $1`, [orderId]);
+    await pool.query(`DELETE FROM shared_orders WHERE id = $1`, [orderId]);
+    await pool.query(`DELETE FROM student_contributions WHERE order_id = $1`, [orderId]);
+}
+
 /**
  * Initialise test data for the database.
  *
