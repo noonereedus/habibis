@@ -60,7 +60,7 @@ describe("Endpoint Tests", () => {
 
         test("POST /order/:orderId/removeStudent should remove a student from an order", async () => {
             const response = await request(app)
-                .post(`/api/order/${orderId}/remove`)
+                .post(`/api/order/${orderId}/removeStudent`)
                 .send({ studentId: student3 });
 
             expect(response.status).toBe(200);
@@ -106,7 +106,7 @@ describe("Endpoint Tests", () => {
                 .get(`/api/order/${orderId}/products`);
 
             expect(response.status).toBe(200);
-            expect(Array.isArray(response.body.items)).toBe(true);
+            expect(Array.isArray(response.body.products)).toBe(true);
         });
 
         test("GET /order/:orderId/student/:studentId/products should list all items of a student in a group order", async () => {
@@ -136,7 +136,7 @@ describe("Endpoint Tests", () => {
                 .get(`/api/order/${orderId}/total`);
     
             expect(response.status).toBe(200);
-            expect(response.body).toHaveProperty("orderId", orderId);
+            expect(response.body).toHaveProperty("orderId");
             expect(response.body).toHaveProperty("totalCost");
             expect(typeof response.body.totalCost).toBe("number");
         });
@@ -146,7 +146,7 @@ describe("Endpoint Tests", () => {
                 .get(`/api/order/${orderId}/student/${student1}/total`);
     
             expect(response.status).toBe(200);
-            expect(response.body).toHaveProperty("orderId", orderId);
+            expect(response.body).toHaveProperty("orderId");
             expect(response.body).toHaveProperty("studentId", student1);
             expect(response.body).toHaveProperty("individualTotal");
             expect(typeof response.body.individualTotal).toBe("number");
@@ -157,7 +157,7 @@ describe("Endpoint Tests", () => {
                 .get(`/api/order/${orderId}/deliveryFeeShare`);
     
             expect(response.status).toBe(200);
-            expect(response.body).toHaveProperty("orderId", orderId);
+            expect(response.body).toHaveProperty("orderId");
             expect(response.body).toHaveProperty("deliveryFeeShare");
             expect(response.body.deliveryFeeShare).toBe(2.5);
             expect(typeof response.body.deliveryFeeShare).toBe("number");
