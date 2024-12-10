@@ -133,54 +133,85 @@ describe("Endpoint Tests", () => {
 
         test("GET /order/:orderId/total should return the total cost of an order", async () => {
             const response = await request(app)
-                .get(`/order/${testOrderId}/total`);
+                .get(`/order/${orderId}/total`);
     
             expect(response.status).toBe(200);
-            expect(response.body).toHaveProperty("orderId", testOrderId);
+            expect(response.body).toHaveProperty("orderId", orderId);
             expect(response.body).toHaveProperty("totalCost");
             expect(typeof response.body.totalCost).toBe("number");
         });
 
         test("GET /order/:orderId/student/:studentId/total should return the total cost for a student in an order", async () => {
             const response = await request(app)
-                .get(`/order/${testOrderId}/student/${testStudentIds[0]}/total`);
+                .get(`/order/${orderId}/student/${student1}/total`);
     
             expect(response.status).toBe(200);
-            expect(response.body).toHaveProperty("orderId", testOrderId);
-            expect(response.body).toHaveProperty("studentId", testStudentIds[0]);
+            expect(response.body).toHaveProperty("orderId", orderId);
+            expect(response.body).toHaveProperty("studentId", student1);
             expect(response.body).toHaveProperty("individualTotal");
             expect(typeof response.body.individualTotal).toBe("number");
         });    
 
         test("GET /order/:orderId/deliveryFeeShare should return the delivery fee share for each student", async () => {
             const response = await request(app)
-                .get(`/order/${testOrderId}/deliveryFeeShare`);
+                .get(`/order/${orderId}/deliveryFeeShare`);
     
             expect(response.status).toBe(200);
-            expect(response.body).toHaveProperty("orderId", testOrderId);
+            expect(response.body).toHaveProperty("orderId", orderId);
             expect(response.body).toHaveProperty("deliveryFeeShare");
+            expect(response.body.deliveryFeeShare).toBe("2.50");
             expect(typeof response.body.deliveryFeeShare).toBe("number");
         });
 
-        test("GET /order/:orderId/student/:studentId/paymentStatus should return payment status", async () =>{
+        test("GET /order/:orderId/student/:studentId/paymentStatus should return pending", async () =>{
             const response = await request(app)
-                .get(`/order/${testOrderId}/student/${testStudentIds[0]}/paymentStatus`)
+                .get(`/order/${orderId}/student/${student1}/paymentStatus`)
 
             expect(response.status).toBe(200);
+            expect(response.body.paymentStatus).toBe("pending");
             expect(response.body).toHaveProperty("paymentStatus");
         });
 
-        test("POST /order/:orderId/completePayment should mark payment as complete", async () => {
+        test("POST /order/:orderId/completePayment should mark student1's payment as complete", async () => {
             const response = await request(app)
-                .post(`/order/${testOrderId}/completePayment`);
+                .post(`/order/${orderId}/completePayment`)
+                .send({ studentId: student1 });
 
             expect(response.status).toBe(200);
             expect(response.body.message).toBe("Payment completed successfully");
         });
 
+        test("GET /order/:orderId/student/:studentId/paymentStatus should return paid", async () =>{
+            const response = await request(app)
+                .get(`/order/${orderId}/student/${student1}/paymentStatus`)
+
+            expect(response.status).toBe(200);
+            expect(response.body.paymentStatus).toBe("paid");
+            expect(response.body).toHaveProperty("paymentStatus");
+        });
+
+        test("POST /order/:orderId/completePayment should mark student2's payment as complete", async () => {
+            const response = await request(app)
+                .post(`/order/${orderId}/completePayment`)
+                .send({ studentId: student2 });
+
+            expect(response.status).toBe(200);
+            expect(response.body.message).toBe("Payment completed successfully");
+        });
+
+        test("GET /order/:orderId/status should return order status", async () => {
+            const response = await request(app).get('/order/${orderId}/status');
+        
+            expect(response.status).toBe(200);
+            expect(response.body.orderStatus).toBeDefined(); 
+            expect(response.body.orderStatus).toBe("finalised")
+        });
+
+
+
     // clean up after tests
     afterAll (async () => {
-        await request(app).delete(`/order/${testOrderId}`);
+        await request(app).delete(`/order/${orderId}`);
         
         server.close();
         await pool.end();
