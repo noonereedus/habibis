@@ -147,7 +147,7 @@ export async function generateCode(){
 
     // if code is already used, generate again
     if(codeResult.rows.length > 0) {
-        return generateCode();
+        return await generateCode();
     }
 
     return result;
@@ -236,7 +236,7 @@ export async function completePayment(orderId, studentId) {
         [orderId, studentId]
     );
 
-    updateOrderStatus(orderId);
+    await updateOrderStatus(orderId);
 }
 
 // finalise order status once all participants complete payment
