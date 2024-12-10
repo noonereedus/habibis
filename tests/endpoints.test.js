@@ -117,9 +117,9 @@ describe("Endpoint Tests", () => {
             expect(Array.isArray(response.body.items)).toBe(true);
         });
 
-        test("DELETE /order/:orderId/remove should remove an item from the order", async () => {
+        test("POST /order/:orderId/remove should remove an item from the order", async () => {
             const response = await request(app)
-                .delete(`/api/order/${orderId}/remove`)
+                .post(`/api/order/${orderId}/remove`)
                 .send({ itemId: 16, studentId: 2644476 });
 
             expect(response.status).toBe(200);
