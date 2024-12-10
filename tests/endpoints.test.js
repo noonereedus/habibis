@@ -165,10 +165,10 @@ describe("Endpoint Tests", () => {
 
         test("GET /order/:orderId/student/:studentId/paymentStatus should return pending", async () =>{
             const response = await request(app)
-                .get(`/order/${orderId}/student/${student1}/paymentStatus`)
+                .get(`/order/${orderId}/student/${student1}/paymentStatus`);
 
             expect(response.status).toBe(200);
-            expect(response.body.paymentStatus).toBe("pending");
+            expect(response.body.paymentStatus).toBe('pending');
             expect(response.body).toHaveProperty("paymentStatus");
         });
 
@@ -211,7 +211,6 @@ describe("Endpoint Tests", () => {
 
     // clean up after tests
     afterAll (async () => {
-        await request(app).delete(`/order/${orderId}`);
         
         server.close();
         await pool.end();
