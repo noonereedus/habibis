@@ -58,10 +58,10 @@ describe("Endpoint Tests", () => {
             expect(response.body.orderStatus).toBe("active")
         });
 
-        test("POST /order/remove should remove a student from an order", async () => {
+        test("POST /order/:orderId/removeStudent should remove a student from an order", async () => {
             const response = await request(app)
                 .post(`/api/order/${orderId}/remove`)
-                .send({ student3 });
+                .send({ studentId: student3 });
 
             expect(response.status).toBe(200);
             expect(response.body.message).toBe("Student removed from order successfully");
@@ -114,7 +114,7 @@ describe("Endpoint Tests", () => {
                 .get(`/api/order/${orderId}/student/${student1}/products`);
 
             expect(response.status).toBe(200);
-            expect(Array.isArray(response.body.items)).toBe(true);
+            expect(Array.isArray(response.body.products)).toBe(true);
         });
 
         test("POST /order/:orderId/remove should remove an item from the order", async () => {
