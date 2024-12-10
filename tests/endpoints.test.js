@@ -119,7 +119,7 @@ describe("Endpoint Tests", () => {
 
         test("POST /order/:orderId/remove should remove an item from the order", async () => {
             const response = await request(app)
-                .post(`/api/order/$orderId/remove`)
+                .post(`/api/order/${orderId}/remove`)
                 .send({ itemId: 16, studentId: 2644476 });
 
             expect(response.status).toBe(200);
@@ -159,7 +159,7 @@ describe("Endpoint Tests", () => {
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty("orderId", orderId);
             expect(response.body).toHaveProperty("deliveryFeeShare");
-            expect(response.body.deliveryFeeShare).toBe(2.50);
+            expect(response.body.deliveryFeeShare).toBe(2.5);
             expect(typeof response.body.deliveryFeeShare).toBe("number");
         });
 
@@ -210,7 +210,7 @@ describe("Endpoint Tests", () => {
     // clean up after tests
     afterAll (async () => {
         
-        await server.close();
+        server.close();
         await pool.end();
     });
 });
