@@ -201,4 +201,12 @@ router.post('/order/:orderId/completePayment', async (req, res) => {
     res.json({ message: "Payment completed successfully" });
 });
 
+// delete an order 
+router.post('/order/:orderId', async (req, res) => {
+    const { orderId } = req.params;
+
+    await deleteOrder(orderId);
+    res.json({ message: "Order deleted successfully"});
+});
+
 export default router;
