@@ -1,12 +1,18 @@
 import express from 'express'
 import router from './endpoints.js';
 import pool from './utils.js';
-// import { initaliseData } from './utils.js';
+
+//import { initaliseData } from './utils.js';
+import cors from 'cors';
+
+
 
 //will add cors to the main branch soon
 const app = express();
 app.use(express.json());
+app.use(cors()); //Allows requests from different ports - I get a fetch error otherwise
 app.use('/api', router);
+
 
 // test the database connection
 async function testConnection() {
