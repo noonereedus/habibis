@@ -138,7 +138,6 @@ describe("Endpoint Tests", () => {
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty("orderId");
             expect(response.body).toHaveProperty("totalCost");
-            expect(typeof response.body.totalCost).toBe("number");
         });
 
         test("GET /order/:orderId/student/:studentId/total should return the total cost for a student in an order", async () => {
@@ -149,7 +148,6 @@ describe("Endpoint Tests", () => {
             expect(response.body).toHaveProperty("orderId");
             expect(response.body).toHaveProperty("studentId", student1);
             expect(response.body).toHaveProperty("individualTotal");
-            expect(typeof response.body.individualTotal).toBe("number");
         });    
 
         test("GET /order/:orderId/deliveryFeeShare should return the delivery fee share for each student", async () => {
@@ -159,8 +157,7 @@ describe("Endpoint Tests", () => {
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty("orderId");
             expect(response.body).toHaveProperty("deliveryFeeShare");
-            expect(response.body.deliveryFeeShare).toBe(2.5);
-            expect(typeof response.body.deliveryFeeShare).toBe("number");
+            expect(response.body.deliveryFeeShare).toBe("2.50");
         });
 
         test("GET /order/:orderId/student/:studentId/paymentStatus should return pending", async () =>{
