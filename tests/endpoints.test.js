@@ -210,9 +210,7 @@ describe("Endpoint Tests", () => {
         try {
             console.log('Cleaning up test data...');
             
-            await pool.query('DELETE FROM shared_order_items WHERE order_id = $1', [orderId]);
-            await pool.query('DELETE FROM student_contributions WHERE order_id = $1', [orderId]);
-            await pool.query('DELETE FROM shared_orders WHERE id = $1', [orderId]);
+            await request(app).get(`/api/order/${orderId}/removeOrder`) 
 
             console.log('Closing server...');
             await new Promise((resolve, reject) => {
