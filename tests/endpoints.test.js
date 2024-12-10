@@ -14,7 +14,7 @@ describe("Endpoint Tests", () => {
     describe("Order management",() => {
         test("POST /order/create should create a new order", async () => {
             const response = await request(app)
-                .post('/order/create')
+                .post('/api/order/create')
                 .send({ student1 });
 
             expect(response.status).toBe(200);
@@ -25,7 +25,7 @@ describe("Endpoint Tests", () => {
 
         test("POST /order/join should add student 2 to the order", async () => {
             const response = await request(app)
-                .post('/order/join')
+                .post('/api/order/join')
                 .send({ student2, uniqueCode });
 
             expect(response.status).toBe(200);
@@ -35,7 +35,7 @@ describe("Endpoint Tests", () => {
 
         test("POST /order/join should add student 3 to the order", async () => {
             const response = await request(app)
-                .post('/order/join')
+                .post('/api/order/join')
                 .send({ student3, uniqueCode });
 
             expect(response.status).toBe(200);
@@ -44,14 +44,14 @@ describe("Endpoint Tests", () => {
         });
 
         test("GET /order/:orderId/uniqueCode should return the unique code of an order", async () => {
-            const response = await(app).get('/order/${orderId}/code');
+            const response = await(app).get('/api/order/${orderId}/code');
         
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty('uniqueCode', uniqueCode);
         });
 
         test("GET /order/:orderId/status should return order status", async () => {
-            const response = await request(app).get('/order/${orderId}/status');
+            const response = await request(app).get('/api/order/${orderId}/status');
         
             expect(response.status).toBe(200);
             expect(response.body.orderStatus).toBeDefined(); 
@@ -60,7 +60,7 @@ describe("Endpoint Tests", () => {
 
         test("POST /order/remove should remove a student from an order", async () => {
             const response = await request(app)
-                .post('/order/$orderId/remove')
+                .post('/api/order/$orderId/remove')
                 .send({ student3 });
 
             expect(response.status).toBe(200);
@@ -74,7 +74,7 @@ describe("Endpoint Tests", () => {
         describe("POST /order/:orderId/add should add an item to the order ", () => {
             test("should add item to the order", async () => {
                 const response = await request(app)
-                    .post(`/order/${orderId}/add`)
+                    .post(`/api/order/${orderId}/add`)
                     .send({ studentId: 2644476, itemId: 16})
     
                 expect(response.status).toBe(200);
@@ -83,7 +83,7 @@ describe("Endpoint Tests", () => {
 
             test("should add item to the order", async () => {
                 const response = await request(app)
-                    .post(`/order/${orderId}/add`)
+                    .post(`/api/order/${orderId}/add`)
                     .send({ studentId: 2644476, itemId: 11})
     
                 expect(response.status).toBe(200);
@@ -92,7 +92,7 @@ describe("Endpoint Tests", () => {
 
             test("should add item to the order", async () => {
                 const response = await request(app)
-                    .post(`/order/${orderId}/add`)
+                    .post(`/api/order/${orderId}/add`)
                     .send({ studentId: 2644476, itemId: 14})
     
                 expect(response.status).toBe(200);
@@ -103,7 +103,7 @@ describe("Endpoint Tests", () => {
         
         test("GET /order/:orderId/products should list all products in a group order", async () => {
             const response = await request(app)
-                .get(`/order/${orderId}/items`);
+                .get(`/api/order/${orderId}/items`);
 
             expect(response.status).toBe(200);
             expect(Array.isArray(response.body.items)).toBe(true);
@@ -111,7 +111,7 @@ describe("Endpoint Tests", () => {
 
         test("GET /order/:orderId/student/:studentId/products should list all items of a student in a group order", async () => {
             const response = await request(app)
-                .get(`/order/${orderId}/student/${student1}/products`);
+                .get(`/api/order/${orderId}/student/${student1}/products`);
 
             expect(response.status).toBe(200);
             expect(Array.isArray(response.body.items)).toBe(true);
@@ -119,7 +119,7 @@ describe("Endpoint Tests", () => {
 
         test("DELETE /order/:orderId/remove should remove an item from the order", async () => {
             const response = await request(app)
-                .delete(`/order/${orderId}/remove`)
+                .delete(`/api/order/${orderId}/remove`)
                 .send({ itemId: 16, studentId: 2644476 });
 
             expect(response.status).toBe(200);
@@ -133,7 +133,7 @@ describe("Endpoint Tests", () => {
 
         test("GET /order/:orderId/total should return the total cost of an order", async () => {
             const response = await request(app)
-                .get(`/order/${orderId}/total`);
+                .get(`/api/order/${orderId}/total`);
     
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty("orderId", orderId);
@@ -143,7 +143,7 @@ describe("Endpoint Tests", () => {
 
         test("GET /order/:orderId/student/:studentId/total should return the total cost for a student in an order", async () => {
             const response = await request(app)
-                .get(`/order/${orderId}/student/${student1}/total`);
+                .get(`/api/order/${orderId}/student/${student1}/total`);
     
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty("orderId", orderId);
@@ -154,7 +154,7 @@ describe("Endpoint Tests", () => {
 
         test("GET /order/:orderId/deliveryFeeShare should return the delivery fee share for each student", async () => {
             const response = await request(app)
-                .get(`/order/${orderId}/deliveryFeeShare`);
+                .get(`/api/order/${orderId}/deliveryFeeShare`);
     
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty("orderId", orderId);
@@ -165,7 +165,7 @@ describe("Endpoint Tests", () => {
 
         test("GET /order/:orderId/student/:studentId/paymentStatus should return pending", async () =>{
             const response = await request(app)
-                .get(`/order/${orderId}/student/${student1}/paymentStatus`);
+                .get(`/api/order/${orderId}/student/${student1}/paymentStatus`);
 
             expect(response.status).toBe(200);
             expect(response.body.paymentStatus).toBe('pending');
@@ -174,7 +174,7 @@ describe("Endpoint Tests", () => {
 
         test("POST /order/:orderId/completePayment should mark student1's payment as complete", async () => {
             const response = await request(app)
-                .post(`/order/${orderId}/completePayment`)
+                .post(`/api/order/${orderId}/completePayment`)
                 .send({ studentId: student1 });
 
             expect(response.status).toBe(200);
@@ -183,7 +183,7 @@ describe("Endpoint Tests", () => {
 
         test("GET /order/:orderId/student/:studentId/paymentStatus should return paid", async () =>{
             const response = await request(app)
-                .get(`/order/${orderId}/student/${student1}/paymentStatus`)
+                .get(`/api/order/${orderId}/student/${student1}/paymentStatus`)
 
             expect(response.status).toBe(200);
             expect(response.body.paymentStatus).toBe("paid");
@@ -192,7 +192,7 @@ describe("Endpoint Tests", () => {
 
         test("POST /order/:orderId/completePayment should mark student2's payment as complete", async () => {
             const response = await request(app)
-                .post(`/order/${orderId}/completePayment`)
+                .post(`/api/order/${orderId}/completePayment`)
                 .send({ studentId: student2 });
 
             expect(response.status).toBe(200);
@@ -200,7 +200,7 @@ describe("Endpoint Tests", () => {
         });
 
         test("GET /order/:orderId/status should return order status", async () => {
-            const response = await request(app).get('/order/${orderId}/status');
+            const response = await request(app).get('/api/order/${orderId}/status');
         
             expect(response.status).toBe(200);
             expect(response.body.orderStatus).toBeDefined(); 
