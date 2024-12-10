@@ -24,7 +24,6 @@ describe("Endpoint Tests", () => {
                 [testOrderId, studentId, 5.00]
             );
         }
-
     });
 
     // order management (create, code, status, join, remove)
@@ -122,7 +121,7 @@ describe("Endpoint Tests", () => {
 
     });
 
-    // TODO: payment management (order/student total, delivery share, payment status, complete payment)
+    // payment management (order/student total, delivery share, payment status, complete payment)
     describe("Payment Management", () => {
 
         test("GET /order/:orderId/total should return the total cost of an order", async () => {
@@ -171,7 +170,6 @@ describe("Endpoint Tests", () => {
             expect(response.status).toBe(200);
             expect(response.body.message).toBe("Payment completed successfully");
         });
-
 
     // clean up after tests
     afterAll (async () => {

@@ -1,16 +1,12 @@
 import express from 'express';
-import pool, { generateCode } from './utils.js';
+import pool from './utils.js';
 import { 
     addItemToOrder, 
     removeItemFromOrder,
-    updateOrderTotal,
-    updateIndividualTotal,
-    updateDeliveryFee,
     createOrder,
     addStudentToOrder,
     removeStudentFromOrder,
-    completePayment,
-    updateOrderStatus
+    completePayment, 
 } from './utils.js'; 
 
 const router = express.Router();
