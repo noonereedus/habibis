@@ -71,10 +71,39 @@ describe("Endpoint Tests", () => {
 
     // item management (products for each order/student, add, remove)
     describe("Item Management", () => {
+        describe("POST /order/:orderId/add should add an item to the order ", () => {
+            test("should add item to the order", async () => {
+                const response = await request(app)
+                    .post(`/order/${orderId}/add`)
+                    .send({ studentId: 2644476, itemId: 16})
+    
+                expect(response.status).toBe(200);
+                expect(response.body.message).toBe("Item added successfully");
+            });
+
+            test("should add item to the order", async () => {
+                const response = await request(app)
+                    .post(`/order/${orderId}/add`)
+                    .send({ studentId: 2644476, itemId: 11})
+    
+                expect(response.status).toBe(200);
+                expect(response.body.message).toBe("Item added successfully");
+            });
+
+            test("should add item to the order", async () => {
+                const response = await request(app)
+                    .post(`/order/${orderId}/add`)
+                    .send({ studentId: 2644476, itemId: 14})
+    
+                expect(response.status).toBe(200);
+                expect(response.body.message).toBe("Item added successfully");
+            });
+
+        })
         
         test("GET /order/:orderId/products should list all products in a group order", async () => {
             const response = await request(app)
-                .get(`/order/${testOrderId}/items`);
+                .get(`/order/${orderId}/items`);
 
             expect(response.status).toBe(200);
             expect(Array.isArray(response.body.items)).toBe(true);
@@ -82,26 +111,16 @@ describe("Endpoint Tests", () => {
 
         test("GET /order/:orderId/student/:studentId/products should list all items of a student in a group order", async () => {
             const response = await request(app)
-                .get(`/order/${testOrderId}/student/${testStudentIds}/products`);
+                .get(`/order/${orderId}/student/${student1}/products`);
 
             expect(response.status).toBe(200);
             expect(Array.isArray(response.body.items)).toBe(true);
         });
 
-        test("POST /order/:orderId/add should add an item to the order", async () => {
-            const response = await request(app)
-                .post(`/order/${testOrderId}/add`)
-                .send({ studentId: 2644476, itemName: "Pizza", itemPrice: 15.00})
-
-            expect(response.status).toBe(200);
-            expect(response.body.message).toBe("Item added successfully");
-        });
-
         test("DELETE /order/:orderId/remove should remove an item from the order", async () => {
-            const testItemId = 1;
             const response = await request(app)
-                .delete(`/order/${testOrderId}/remove`)
-                .send({ studentId: 2644476 });
+                .delete(`/order/${orderId}/remove`)
+                .send({ itemId: 16, studentId: 2644476 });
 
             expect(response.status).toBe(200);
             expect(response.body.message).toBe("Item removed successfully");
