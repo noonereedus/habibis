@@ -11,6 +11,41 @@ import {
 
 const router = express.Router();
 
+// get summary of an order
+router.get('/order/:orderId/summary', async (req, res) => {
+    const { orderId } = req.params;
+
+    // get order details
+    const orderDetails = await pool.query(
+        `SELECT id AS order_id, unique_code, total_cost
+         FROM shared_orders
+         WHERE id = $1`,
+        [orderId]
+    );
+
+    // get details and products for each student
+    const studentDetails = await pool.query(
+        `SELECT sc.student_id, 
+                sc.individual_total, 
+                sc.delivery_fee_share, 
+                sc.payment_status,
+                JSON_AGG(
+                    JSON_BUILD_OBJECT(
+                        'product_name', gi.name, 
+                        'quantity', soi.quantity
+                    )
+                ) AS products
+         FROM student_contributions sc
+         JOIN shared_order_items soi ON sc.order_id = soi.order_id AND sc.student_id = soi.student_id
+         JOIN grocery_items gi ON soi.item_id = gi.id
+         WHERE sc.order_id = $1
+         GROUP BY sc.student_id, sc.individual_total, sc.delivery_fee_share, sc.payment_status`,
+        [orderId]
+    );
+
+    res.json({ orderDetails: orderDetails.rows[0], students: studentDetails.rows });
+    
+})
 
 // list all products
 router.get('/products', async(req, res) => {
