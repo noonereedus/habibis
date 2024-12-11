@@ -26,7 +26,7 @@ router.get('/order/:orderId/summary', async (req, res) => {
     // get details and products for each student
     const studentDetails = await pool.query(
         `SELECT sc.student_id, 
-                s.name AS student_name,
+                s.name AS student_name, 
                 sc.individual_total, 
                 sc.delivery_fee_share, 
                 sc.payment_status,
@@ -40,9 +40,10 @@ router.get('/order/:orderId/summary', async (req, res) => {
          FROM student_contributions sc
          JOIN shared_order_items soi 
            ON sc.order_id = soi.order_id AND sc.student_id = soi.student_id
-         JOIN grocery_items gi ON soi.item_id = gi.id
+         JOIN grocery_items gi 
+           ON soi.item_id = gi.id
          JOIN students s 
-           ON sc.student_id = s.id
+           ON sc.student_id = s.student_id
          WHERE sc.order_id = $1
          GROUP BY sc.student_id, s.name, sc.individual_total, sc.delivery_fee_share, sc.payment_status`,
         [orderId]
