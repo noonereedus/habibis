@@ -53,6 +53,12 @@ router.get('/order/:orderId/summary', async (req, res) => {
     
 })
 
+// list all students in database
+router.get('/students', async (req, res) => {
+    const result = await pool.query('SELECT student_id, name FROM students');
+    res.json(result.rows);
+});
+
 // list all products
 router.get('/products', async(req, res) => {
     const result = await pool.query('SELECT * FROM grocery_items');
