@@ -7,7 +7,7 @@ function SharedOrder() {
 
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        fetch(`${backendUrl}/api/products`)
+        fetch(`${backendURL}/api/products`)
         .then(res => res.json())
         .then(products => 
             setProducts(products))
