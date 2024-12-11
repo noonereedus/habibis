@@ -21,23 +21,31 @@ describe('Utility Function Tests', () => {
         expect(code1).not.toBe(code2);
       });
 
-      // TODO: Test if `updateOrderTotal` calculates the total cost accurately for an order.
-      // TODO: Test if `updateIndividualTotal` calculates the correct individual total for a student in an order.
-      // TODO: Test if `updateDeliveryFee` distributes the delivery fee equally among all students.
-      // TODO: Test adding a new item updates the order correctly.
-      // TODO: Test incrementing an existing item's quantity updates the totals correctly.
-      // TODO: Test decrementing the quantity of an item updates the totals correctly.
-      // TODO: Test removing the item (quantity = 0) updates the totals correctly.
-      // TODO: Test if `generateCode` creates a unique, valid 5-character code.
-      // TODO: Test if `createOrder` creates a new order and adds the creator to contributions.
-      // TODO: Test if `createOrder` creates a new order and adds the creator to contributions.
-      // TODO: Test if a new student can be added to an existing order.
-      // TODO: Test if delivery fee updates when a student is added.
-      // TODO: Test if a student is removed and totals/delivery fees are updated correctly.
-
-
-
-    });
+      describe('updateOrderTotal', () => {
+        // TODO: Test if `updateOrderTotal` calculates the total cost accurately for an order.
+      });
+    
+      describe('updateIndividualTotal', () => {
+        // TODO: Test if `updateIndividualTotal` calculates the correct individual total for a student in an order.
+      });
+    
+      describe('updateDeliveryFee', () => {
+        // TODO: Test if `updateDeliveryFee` distributes the delivery fee equally among all students.
+        // TODO: Test if delivery fee updates when a student is added.
+      });
+    
+      describe('item management', () => {
+        // TODO: Test adding a new item updates the order correctly.
+        // TODO: Test incrementing an existing item's quantity updates the totals correctly.
+        // TODO: Test decrementing the quantity of an item updates the totals correctly.
+        // TODO: Test removing the item (quantity = 0) updates the totals correctly.
+      });
+    
+      describe('student management', () => {
+        // TODO: Test if a new student can be added to an existing order.
+        // TODO: Test if a student is removed and totals/delivery fees are updated correctly.
+      });
+    
     
     // clean up after tests
     afterAll(async () => {
