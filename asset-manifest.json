@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/habibis/static/css/main.3f7229ba.css",
-    "main.js": "/habibis/static/js/main.d4e2ea86.js",
+    "main.js": "/habibis/static/js/main.df742b1b.js",
     "static/js/488.e75445ad.chunk.js": "/habibis/static/js/488.e75445ad.chunk.js",
     "index.html": "/habibis/index.html",
     "main.3f7229ba.css.map": "/habibis/static/css/main.3f7229ba.css.map",
-    "main.d4e2ea86.js.map": "/habibis/static/js/main.d4e2ea86.js.map",
+    "main.df742b1b.js.map": "/habibis/static/js/main.df742b1b.js.map",
     "488.e75445ad.chunk.js.map": "/habibis/static/js/488.e75445ad.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3f7229ba.css",
-    "static/js/main.d4e2ea86.js"
+    "static/js/main.df742b1b.js"
   ]
 }
