@@ -1,11 +1,13 @@
 import {useState, useEffect} from 'react'
 
+const backendURL = "https://habibis-backend.onrender.com"; // Backend URL
+
 //Makes a backend request to access the grocery list
 function SharedOrder() {
 
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:3000/api/products")
+        fetch(`${backendUrl}/api/products`)
         .then(res => res.json())
         .then(products => 
             setProducts(products))

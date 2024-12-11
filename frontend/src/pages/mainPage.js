@@ -1,4 +1,6 @@
-import {useState} from 'react'
+import { useState } from 'react';
+
+const backendURL = "https://habibis-backend.onrender.com"; // Backend URL
 
 //Makes a backend request to join an existing order or create a new order
 function MainPage() {
@@ -6,7 +8,7 @@ function MainPage() {
     const [createCode, setCode] = useState('');
     const [error, setError] = useState('');
     const createOrder = () => {
-        fetch("http://localhost:3000/api/order/create", {
+        fetch(`${backendURL}/api/order/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
