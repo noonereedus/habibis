@@ -11,6 +11,53 @@ import {
 
 const router = express.Router();
 
+// get summary of an order
+router.get('/order/:orderId/summary', async (req, res) => {
+    const { orderId } = req.params;
+
+    // get order details
+    const orderDetails = await pool.query(
+        `SELECT id AS order_id, unique_code, total_cost
+         FROM shared_orders
+         WHERE id = $1`,
+        [orderId]
+    );
+
+    // get details and products for each student
+    const studentDetails = await pool.query(
+        `SELECT sc.student_id, 
+                s.name AS student_name, 
+                sc.individual_total, 
+                sc.delivery_fee_share, 
+                sc.payment_status,
+                JSON_AGG(
+                    JSON_BUILD_OBJECT(
+                        'product_name', gi.name, 
+                        'product_price', gi.price,
+                        'quantity', soi.quantity
+                    )
+                ) AS products
+         FROM student_contributions sc
+         JOIN shared_order_items soi 
+           ON sc.order_id = soi.order_id AND sc.student_id = soi.student_id
+         JOIN grocery_items gi 
+           ON soi.item_id = gi.id
+         JOIN students s 
+           ON sc.student_id = s.student_id
+         WHERE sc.order_id = $1
+         GROUP BY sc.student_id, s.name, sc.individual_total, sc.delivery_fee_share, sc.payment_status`,
+        [orderId]
+    );
+
+    res.json({ orderDetails: orderDetails.rows[0], students: studentDetails.rows });
+    
+})
+
+// list all students in database
+router.get('/students', async (req, res) => {
+    const result = await pool.query('SELECT student_id, name FROM students');
+    res.json(result.rows);
+});
 
 // list all products
 router.get('/products', async(req, res) => {
@@ -199,6 +246,14 @@ router.post('/order/:orderId/completePayment', async (req, res) => {
 
     await completePayment(orderId, studentId);
     res.json({ message: "Payment completed successfully" });
+});
+
+// delete an order 
+router.post('/order/:orderId', async (req, res) => {
+    const { orderId } = req.params;
+
+    await deleteOrder(orderId);
+    res.json({ message: "Order deleted successfully"});
 });
 
 export default router;

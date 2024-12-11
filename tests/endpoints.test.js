@@ -207,8 +207,24 @@ describe("Endpoint Tests", () => {
     // clean up after tests
     afterAll (async () => {
         
-        server.close();
-        await pool.end();
+        try {
+            console.log('Cleaning up test data...');
+            
+            await request(app).get(`/api/order/${orderId}/removeOrder`) 
+
+            console.log('Closing server...');
+            await new Promise((resolve, reject) => {
+                server.close((err) => (err ? reject(err) : resolve()));
+            });
+    
+            console.log('Closing database connection pool...');
+            await pool.end();
+    
+            console.log('Cleanup completed.');
+        } catch (error) {
+            console.error('Error during cleanup:', error);
+        }
     });
 });
-});
+}); 
+
