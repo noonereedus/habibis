@@ -27,7 +27,6 @@ jobs:
 
     - name: Clean docs directory
       run: rm -rf docs/*
-      working-directory: frontend
 
     - name: Build frontend
       run: npm run build
