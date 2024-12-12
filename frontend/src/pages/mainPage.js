@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const backendURL = "https://habibis-backend.onrender.com"; // Backend URL
 
@@ -6,6 +7,7 @@ const backendURL = "https://habibis-backend.onrender.com"; // Backend URL
 function MainPage() {
 
     const [createCode, setCode] = useState('');
+    const routeNavigate = useNavigate();
     const [error, setError] = useState('');
     const createOrder = () => {
         fetch(`${backendURL}/api/order/create`, {
@@ -22,6 +24,9 @@ function MainPage() {
             console.error("Error while creating and order:", error); setError("Something went wrong! Order not created :(");
         });
     };
+    const joinOrder = () => {
+        routeNavigate(('/SharedOrder'));
+    };
 
 //Produces the HTML layout to allow joining/creating an order
 return (
@@ -33,6 +38,13 @@ return (
     (
     <p>This is your new order code. Dont lose it: <strong>{createCode}</strong></p>
     )}
+
+    {/*Order join button*/}
+    {/*<form action={joinOrder}>
+    <label for="join">Join an existing order:</label>
+    <input type="text" id="join" name="join"/>*/}
+    <button onClick={joinOrder}>Join an existing order</button>
+    {/*</form>*/}
 
     {/*error scenario*/}
     {error && 
