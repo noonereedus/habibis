@@ -11,13 +11,10 @@ function App() {
     <Router>
       <nav>
         <Link to="/MainPage">Home</Link>
-        <Link to="/SharedOrder">SharedOrder</Link>
-        <Link to="/Shopping">Shop</Link>
       </nav>
       <Routes>
         <Route path="/MainPage" element={<MainPage />} />
         <Route path="/SharedOrder" element={<SharedOrder />} />
-        <Route path="/Shopping" element={<shopping />} />
       </Routes>
     </Router>
   );
